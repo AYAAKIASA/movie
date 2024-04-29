@@ -5,187 +5,185 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Movie Search</title>
   <style>
+    .movie-card {
+        width: 200px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
 
-  .movie-card {
-      width: 200px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: transform 0.3s ease;
-  }
+    .movie-card:hover {
+        transform: translateY(-5px);
+    }
 
-  .movie-card:hover {
-      transform: translateY(-5px);
-  }
+    body {
+        font-family: Arial, sans-serif;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2020%2F04%2Fstudio-ghibli-free-wallpaper-download-info-00.jpg?w=960&cbr=1&q=90&fit=max'); /* Replace with your Ghibli-style background image */
+        background-size: contain; 
+        background-repeat: repeat; 
+        color: white;
+        padding: 20px; 
+    }
 
-      body {
-          font-family: Arial, sans-serif;
-          background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2020%2F04%2Fstudio-ghibli-free-wallpaper-download-info-00.jpg?w=960&cbr=1&q=90&fit=max'); /* Replace with your Ghibli-style background image */
-          background-size: contain; 
-          background-repeat: repeat; 
-          color: white;
-          padding: 20px; 
-      }
+    #movieList {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+    }
 
-      #movieList {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 20px;
-          padding: 20px;
-      }
+    .movie-card {
+        width: 200px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
 
-      .movie-card {
-          width: 200px;
-          background-color: rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
-          overflow: hidden;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          cursor: pointer;
-      }
+    .movie-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px 10px 0 0;
+    }
 
-      .movie-card img {
-          width: 100%;
-          height: auto;
-          border-radius: 10px 10px 0 0;
-      }
+    .movie-card .info {
+        padding: 10px;
+    }
 
-      .movie-card .info {
-          padding: 10px;
-      }
+    .movie-card h2 {
+        margin: 0;
+        font-size: 18px;
+    }
 
-      .movie-card h2 {
-          margin: 0;
-          font-size: 18px;
-      }
+    .movie-card p {
+        margin: 5px 0;
+        font-size: 14px;
+    }
 
-      .movie-card p {
-          margin: 5px 0;
-          font-size: 14px;
-      }
+    input[type="text"] {
+        width: calc(100% - 100px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: white;
+        color: black;
+        box-sizing: border-box; 
+    }
 
-      input[type="text"] {
-          width: calc(100% - 100px);
-          padding: 10px;
-          margin-bottom: 10px;
-          border: none;
-          border-radius: 5px;
-          background-color: white;
-          color: black;
-          box-sizing: border-box; 
-      }
+    button {
+        padding: 10px 20px;
+        background-color: #ff6600;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-      button {
-          padding: 10px 20px;
-          background-color: #ff6600;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-      }
+    button:hover {
+        background-color: #cc5500;
+    }
 
-      button:hover {
-          background-color: #cc5500;
-      }
+    #returnButton {
+        background-color: #666666;
+        margin-right: 10px;
+    }
 
-      #returnButton {
-          background-color: #666666;
-          margin-right: 10px;
-      }
+    #returnButton:hover {
+        background-color: #555555; 
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Movie Search</h1>
+    <div>
+        <button id="searchButton">Search</button>
+        <input type="text" id="searchInput" placeholder="Search for a movie...">
+        <button id="returnButton" style="display: none;">Return to Start Page</button>
+    </div>
+  </header>
+  <main id="movieList"></main>
+  
+  <script>
+    async function displayMovies(movies) {
+      const movieList = document.getElementById('movieList');
+      movieList.innerHTML = '';
 
-      #returnButton:hover {
-          background-color: #555555; 
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>Movie Search</h1>
-      <div>
-          <button id="searchButton">Search</button>
-          <input type="text" id="searchInput" placeholder="Search for a movie...">
-          <button id="returnButton" style="display: none;">Return to Start Page</button>
-      </div>
-    </header>
-    <main id="movieList"></main>
-    
-    <script>
-      async function displayMovies(movies) {
-        const movieList = document.getElementById('movieList');
-        movieList.innerHTML = '';
-
-        movies.forEach(movie => {
-          const movieCard = document.createElement('div');
-          movieCard.classList.add('movie-card');
-          movieCard.addEventListener('click', () => {
-            alert(`Movie ID: ${movie.id}`);
-          });
-
-          const posterUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
-          const title = movie.title;
-          const overview = movie.overview.substring(0, 150) + '...';
-          const rating = movie.vote_average;
-
-          const poster = document.createElement('img');
-          poster.src = posterUrl;
-          poster.alt = title;
-
-          const info = document.createElement('div');
-          info.classList.add('info');
-          info.innerHTML = `
-            <h2>${title}</h2>
-            <p>Rating: ${rating}</p> <!-- Display the rating -->
-            <p>${overview}</p>
-          `;
-
-          movieCard.appendChild(poster);
-          movieCard.appendChild(info);
-
-          movieList.appendChild(movieCard);
+      movies.forEach(movie => {
+        const movieCard = document.createElement('div');
+        movieCard.classList.add('movie-card');
+        movieCard.addEventListener('click', () => {
+          alert(`Movie ID: ${movie.id}`);
         });
+
+        const posterUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+        const title = movie.title;
+        const overview = movie.overview.substring(0, 150) + '...';
+        const rating = movie.vote_average;
+
+        const poster = document.createElement('img');
+        poster.src = posterUrl;
+        poster.alt = title;
+
+        const info = document.createElement('div');
+        info.classList.add('info');
+        info.innerHTML = `
+          <h2>${title}</h2>
+          <p>Rating: ${rating}</p> <!-- Display the rating -->
+          <p>${overview}</p>
+        `;
+
+        movieCard.appendChild(poster);
+        movieCard.appendChild(info);
+
+        movieList.appendChild(movieCard);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('searchInput').focus();
+
+      const apiKey = '130d7c4426a3008f6995c59c280aebd5';
+      const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`;
+      const response = await fetch(url);
+      const data = await response.json();
+      displayMovies(data.results);
+    });
+
+    document.getElementById('searchButton').addEventListener('click', searchMovies);
+
+    document.getElementById('searchInput').addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        searchMovies();
       }
+    });
 
-      document.addEventListener('DOMContentLoaded', async () => {
-        console.log('DOM content loaded');
-        document.getElementById('searchInput').focus();
+    async function searchMovies() {
+      const searchTerm = document.getElementById('searchInput').value.trim();
+      if (searchTerm) {
+        try {
+          const apiKey = '130d7c4426a3008f6995c59c280aebd5';
+          const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`;
+          const response = await fetch(url);
+          const data = await response.json();
+          displayMovies(data.results);
 
-        const apiKey = '130d7c4426a3008f6995c59c280aebd5';
-        const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`;
-        const response = await fetch(url);
-        const data = await response.json();
-        displayMovies(data.results);
-      });
-
-      document.getElementById('searchButton').addEventListener('click', searchMovies);
-
-      document.getElementById('searchInput').addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-          searchMovies();
-        }
-      });
-
-      async function searchMovies() {
-        const searchTerm = document.getElementById('searchInput').value.trim();
-        if (searchTerm) {
-          try {
-            const apiKey = '130d7c4426a3008f6995c59c280aebd5';
-            const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            displayMovies(data.results);
-
-            document.getElementById('returnButton').style.display = 'block';
-          } catch (error) {
-            console.error('Error searching movies:', error);
-          }
+          document.getElementById('returnButton').style.display = 'block';
+        } catch (error) {
+          console.error('Error searching movies:', error);
         }
       }
+    }
 
-      document.getElementById('returnButton').addEventListener('click', () => {
-        window.location.reload();
-      });
-    </script>
-  </body>
-  </html>
+    document.getElementById('returnButton').addEventListener('click', () => {
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>
