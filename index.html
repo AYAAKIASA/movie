@@ -147,13 +147,13 @@
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('searchInput').focus();
-
       const apiKey = '130d7c4426a3008f6995c59c280aebd5';
       const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`;
       const response = await fetch(url);
       const data = await response.json();
       displayMovies(data.results);
+
+      document.getElementById('searchInput').focus();
     });
 
     document.getElementById('searchButton').addEventListener('click', searchMovies);
