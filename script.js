@@ -11,7 +11,7 @@ async function displayMovies(movies) {
 
     const posterUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
     const title = movie.title;
-    const overview = movie.overview.substring;
+    const overview = movie.overview;
     const rating = movie.vote_average;
 
     const poster = document.createElement('img');
