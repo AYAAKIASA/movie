@@ -54,17 +54,17 @@ document.getElementById('searchInput').addEventListener('keydown', function(even
 async function searchMovies() {
   const searchTerm = document.getElementById('searchInput').value.trim();
   if (searchTerm) {
-    try {
-      const apiKey = '130d7c4426a3008f6995c59c280aebd5';
-      const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      displayMovies(data.results);
+    const apiKey = '130d7c4426a3008f6995c59c280aebd5';
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    const filteredMovies = data.results.filter(movie => {
+      return movie.title.toLowerCase().includes(searchTerm.toLowerCase());
+    });
 
-      document.getElementById('returnButton').style.display = 'block';
-    } catch (error) {
-      console.error('Error searching movies:', error);
-    }
+    displayMovies(filteredMovies);
+    document.getElementById('returnButton').style.display = 'block';
   }
 }
 
