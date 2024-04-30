@@ -1,17 +1,3 @@
-.movie-card {
-    width: 200px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.movie-card:hover {
-    transform: translateY(-5px);
-}
-
 body {
     font-family: Arial, sans-serif;
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2020%2F04%2Fstudio-ghibli-free-wallpaper-download-info-00.jpg?w=960&cbr=1&q=90&fit=max');
@@ -21,9 +7,14 @@ body {
     padding: 20px; 
 }
 
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+
 #movieList {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, calc(25% - 20px)));
     gap: 20px;
     justify-items: center;
     padding: 20px;
