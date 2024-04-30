@@ -42,16 +42,19 @@ body {
 
 .movie-card .info {
     padding: 10px;
-}
-
-.movie-card h2 {
-    margin: 0;
-    font-size: 18px;
+    height: auto;
+    overflow: auto;
 }
 
 .movie-card p {
     margin: 5px 0;
     font-size: 14px;
+    white-space: normal;
+}
+
+.movie-card h2 {
+    margin: 0;
+    font-size: 18px;
 }
 
 input[type="text"] {
